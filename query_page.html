@@ -1,0 +1,169 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title> Project </title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah|Bree+Serif|Pacifico" rel="stylesheet"> 
+
+<script src="https://use.fontawesome.com/c55b4c9e49.js"></script>
+
+	<style type="text/css">
+		#la{
+			color: black;
+			text-align: center;
+			font-size: 40px;
+			font-family: 'Bree Serif', serif;
+			align-content: center;
+		}
+		h1{
+			text-align:center;
+			font-size:80px;
+			color: blue; 
+			font-family: 'Gloria Hallelujah', cursive;
+			text-shadow: 1px 1px 2px black; 
+		}
+		#input{
+			width: 600px;
+			height:50px;
+		}
+		body{
+			 background-image: url("https://lh3.googleusercontent.com/wyJ6-LDLIcK7ExtsR3YUXiNaJicxD9ntaV4rJNtOWiRx-8-S7sPNwVan9ccu15gIxiRM7n5N7Ys=s640-h400-e365");
+			 background-size: cover;
+			 background-repeat: no-repeat;
+			 background-attachment: fixed;
+			 
+		}
+		.container{
+			border: 2px solid double black;
+			width: 1200px;
+			height: 600px;
+
+
+		}
+		#options{
+			color: black;
+		}
+		.btn-danger{
+			height: 50px;
+		}
+		p{
+			align-content: right;
+		}
+		#main{
+			color: red;
+			font-size: 16px;
+		}
+		.lala{
+			color: blue
+
+		}
+		.word1{
+			color: black;
+		}
+		#demo{
+			align-content: right;
+			text-align: right;
+		}
+	</style>
+</head>
+<body>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#"><i class="fa fa-home" aria-hidden="true"></i>Query Optimizer</a>
+      <p id="demo"></p>
+    </div>
+  </div>
+</nav>
+<br><br><br>
+<div class="container">
+<h1><center><i class="fa fa-pencil" aria-hidden="true"></i>QUERY OPTIMIZER</center></h1>
+<br><br><br>
+<form action="/" method="POST">
+	<div class="form-group">
+	<label for="input" id="la">Enter your Query</label><br>
+	<input id="input" type="text" name="search" value="" placeholder="Search Here">
+	<button onclick=loadDoc() class="btn btn-danger">Submit  <i class="fa fa-paw" aria-hidden="true"></i></button>
+	</div>
+</form>
+<br>
+{%if len_an == 1:%}
+{%for i in key:%}
+{%set s = "+".join(i.split(" ")[0:5])%}
+<span class="word1">{%print(''.join(an)) %}</span>
+<a class="lala" href="https://www.google.co.in/?gfe_rd=cr&ei=1vYKWN6AJ6_v8wf2_IBI&gws_rd=ssl#q={{''.join(an)}}+(+{{s}}+)"> ({{i}}) </a>
+<br>
+{%endfor%}
+{%endif%}
+{%if len_an ==2:%}
+{%for i in range(0,len_key,2):%}
+{%set s1 = "+".join(key[i].split(" ")[0:5])%}
+<span class="word1">{%print(''.join(an[0])) %}</span>
+<a class="lala" href="https://www.google.co.in/?gfe_rd=cr&ei=1vYKWN6AJ6_v8wf2_IBI&gws_rd=ssl#q={{''.join(an[0])}}+(+{{s1}}+)"> ({{key[i]}}) </a>
+{%set s = "+".join(key[i+1].split(" ")[0:5])%}
+<span class="word1">{%print(''.join(an[1])) %}</span>
+<a class="lala" href="https://www.google.co.in/?gfe_rd=cr&ei=1vYKWN6AJ6_v8wf2_IBI&gws_rd=ssl#q={{''.join(an[1])}}+(+{{s}}+)"> ({{key[i+1]}}) </a>
+<a class="lala" id="main" href="https://www.google.co.in/?gfe_rd=cr&ei=1vYKWN6AJ6_v8wf2_IBI&gws_rd=ssl#q={{''.join(an[0])}}+(+{{s1}}+)+{{''.join(an[1])}}+(+{{s}}+)">GO</a>
+<br>
+{%endfor%}
+{%endif%}
+</div>
+<script type="text/javascript">document.getElementById("demo").innerHTML=Date();</script>
+<script type="text/javascript">
+	var stopWordsArray = ["a","an","at","and","are","or","is","the","of","when","what","where","that","then","if","there",""];
+    var string;
+    var s="";
+ 
+    function loadDoc()
+	{
+		splitString();
+		document.getElementById("input").value=string;
+	}
+    
+	function splitString()
+	{
+		var originalString=document.getElementById("input");
+		var originalSplitArray=new Array();
+		originalSplitArray=originalString.value.split(" ");
+		removeStopWords(originalSplitArray);
+		return;
+	}
+
+	function removeStopWords(array)
+	{
+		var improvedStringArray=new Array();
+		var j=0;
+		var i;
+		for(i=0;i<array.length;i++)
+		{
+
+			if(check(array[i])==true)
+			{
+				continue;
+			}
+			else
+			{
+				improvedStringArray[j]=array[i];
+				j++;
+			}
+		}
+		string=improvedStringArray;
+		return;
+	}
+
+	function check(word)
+	{
+		for(i=0;i<stopWordsArray.length;i++)
+		{
+			if(word==stopWordsArray[i])
+				return true;
+		}
+		return false;
+	}
+</script>
+
+</body>
+</html>
